@@ -8,7 +8,7 @@
         <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
         <link href="http://code.jquery.com/ui/1.9.0/themes/cupertino/jquery-ui.css" rel="stylesheet" />
         <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
-        <script src="http://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['controls', 'charteditor']}]}"></script>
+        <script src="http://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['line', 'controls']}]}"></script>
         <script src="http://jquery-csv.googlecode.com/git/src/jquery.csv.js"></script>
         <script>
 
@@ -87,7 +87,7 @@
                       // sets the options on the chart wrapper so that it draws correctly
                       wrapper.setOption('height', 700);
                       // the chart editor automatically enables animations, which doesn't look right with the ChartRangeFilter
-                      //wrapper.setOption('animation', null);
+                      wrapper.setOption('animation', null);
                       // the chart editor sets hAxis.viewWindowMode to 'pretty', which doesn't work well with continuous axes
                       wrapper.setOption('hAxis.viewWindowMode', 'maximized');
                       //wrapper.setOption('curveType', 'function');
@@ -195,7 +195,6 @@
                 chart.setView(view);
                 dash.bind([control], [chart]);
                 dash.draw(data);
-                // chart.draw();
           }
         </script>
         
