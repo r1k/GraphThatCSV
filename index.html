@@ -107,9 +107,9 @@
                  */
                 var seriesMap = [];
 
-                for (var i = 0; i < setChartData[0].length; i++) {
+                for (var i = 1; i < setChartData[0].length; i++) {
                     var _display = false;
-                    if (i < 3) {
+                    if (i < 2) {
                         _display = true;
                     }
                     seriesMap.push({
@@ -192,9 +192,10 @@
                 var view = {
                     columns: columns
                 };
+                chart.setView(view);
                 dash.bind([control], [chart]);
                 dash.draw(data);
-
+                // chart.draw();
           }
         </script>
         
