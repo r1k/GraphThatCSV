@@ -1,0 +1,26 @@
+textarea {
+    width:100%;
+}
+
+#padding {
+  margin: auto;
+  width: 98%;
+  display:block;
+  height:50px;
+  background-color:white;
+  visibility:hidden;
+}
+
+#dashboard {
+  display:block;
+}
+
+#filename {
+  margin-left: 10px;
+  font-style: italic
+}
+
+.main-body {
+  margin: auto;
+  width: 98%
+}
