@@ -28,7 +28,7 @@ function handleFileSelect(evt) {
 }
 
 function chartFileData(fileToParse, callback) {
-  $('#padding').css({visibility: "visible"});
+  $('#dashboard').css({visibility: "visible"});
   var reader = new FileReader();
   reader.readAsText(fileToParse);
   reader.onload = function() {
@@ -43,8 +43,52 @@ function chartFileData(fileToParse, callback) {
 
 //draw chart
 function drawChart (setChartData) {
-  var data = new google.visualization.arrayToDataTable(setChartData);
-  var dash = new google.visualization.Dashboard(document.getElementById('dashboard'));
+  google.charts.load('current', {'packages':['line']});
+  google.charts.setOnLoadCallback(function(){
+
+    var data = new google.visualization.arrayToDataTable(setChartData);
+    // var dash = new google.visualization.Dashboard(document.getElementById('dashboard'));
+
+    var options = {
+      title: 'CSV Graph',
+      legend: { position: 'right' },
+      selectionMode: 'multiple',
+      animation: { startup: true, duration: 2000, easing: 'in' },
+      explorer: {
+        keepInBounds: true,
+        maxZoomIn: 0.05,
+        maxZoomOut: 1.5,
+        actions: ['dragToZoom', 'rightClickToReset']
+      },
+      focusTarget: 'category'
+    };
+
+    var chart = new google.charts.Line(document.getElementById('chart'));
+
+    chart.draw(data, options);
+  });
+}
+
+
+
+function OnChartReady() {
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+function old () {
+
   var control = new google.visualization.ControlWrapper({
     controlType: 'ChartRangeFilter',
     containerId: 'control',
@@ -63,21 +107,6 @@ function drawChart (setChartData) {
     chartType: 'LineChart',
     containerId: 'chart',
   });
-
-  function fixOptions(wrapper) {
-    // sets the options on the chart wrapper so that it draws correctly
-    wrapper.setOption('height', 700);
-    // the chart editor automatically enables animations, which doesn't look right with the ChartRangeFilter
-    wrapper.setOption('animation', null);
-    // the chart editor sets hAxis.viewWindowMode to 'pretty', which doesn't work well with continuous axes
-    wrapper.setOption('hAxis.viewWindowMode', 'maximized');
-    //wrapper.setOption('curveType', 'function');
-    wrapper.setOption('chartArea', {left:'3%',top:'3%',width:'80%',height:'90%'});
-    //wrapper.setOption('vAxis.viewWindow.max', '20');
-    //wrapper.setOption('vAxis.viewWindow.min', '-70');
-  }
-
-  fixOptions(chart);
 
   // create columns array
   var columns = [0];

@@ -11,8 +11,14 @@ textarea {
   visibility:hidden;
 }
 
+#chart {
+  height: 800px;
+}
+
 #dashboard {
   display:block;
+  visibility: hidden;
+  height: auto;
 }
 
 #filename {

@@ -8,7 +8,10 @@
         <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
         <link href="http://code.jquery.com/ui/1.9.0/themes/cupertino/jquery-ui.css" rel="stylesheet" />
         <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <!--
         <script src="http://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['line', 'controls']}]}"></script>
+        -->
         <script src="js/jquery.csv.js"></script>
         <script src="js/materialize.min.js"></script>
         <link href="css/materialize.min.css" rel="stylesheet" />
@@ -30,7 +33,7 @@
               <input id="files" type="file" name="file" style="position: fixed; top: -100em">
             <hr />
           </div>
-            <div id=dashboard>
+            <div id=dashboard class="card-panel">
               <div id=chart></div>
               <div id=control></div>
               <div id=padding></div>
