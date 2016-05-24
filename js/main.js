@@ -23,12 +23,13 @@ function handleFileSelect(evt) {
   $('#filename').text(file.name);
   // read the file contents and chart the data
   chartFileData(file, function(parsed) {
-    drawChart(parsed);
+    dashboardChart(parsed);
   });
 }
 
 function chartFileData(fileToParse, callback) {
   $('#dashboard').css({visibility: "visible"});
+  $('#control').css({visibility: "visible"});
   var reader = new FileReader();
   reader.readAsText(fileToParse);
   reader.onload = function() {
@@ -41,54 +42,9 @@ function chartFileData(fileToParse, callback) {
   };
 }
 
-//draw chart
-function drawChart (setChartData) {
-  google.charts.load('current', {'packages':['line']});
-  google.charts.setOnLoadCallback(function(){
-
-    var data = new google.visualization.arrayToDataTable(setChartData);
-    // var dash = new google.visualization.Dashboard(document.getElementById('dashboard'));
-
-    var options = {
-      title: 'CSV Graph',
-      legend: { position: 'right' },
-      selectionMode: 'multiple',
-      animation: { startup: true, duration: 2000, easing: 'in' },
-      explorer: {
-        keepInBounds: true,
-        maxZoomIn: 0.05,
-        maxZoomOut: 1.5,
-        actions: ['dragToZoom', 'rightClickToReset']
-      },
-      focusTarget: 'category'
-    };
-
-    var chart = new google.charts.Line(document.getElementById('chart'));
-
-    chart.draw(data, options);
-  });
-}
-
-
-
-function OnChartReady() {
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-function old () {
-
+function drawDashboard(csvdata) {
+  var data = new google.visualization.arrayToDataTable(csvdata);
+  var dash = new google.visualization.Dashboard(document.getElementById('dashboard'));
   var control = new google.visualization.ControlWrapper({
     controlType: 'ChartRangeFilter',
     containerId: 'control',
@@ -104,105 +60,59 @@ function old () {
   });
 
   var chart = new google.visualization.ChartWrapper({
-    chartType: 'LineChart',
+    chartType: 'Line',
     containerId: 'chart',
+    options: {
+      title: 'CSV Graph',
+      legend: { position: 'right' },
+      selectionMode: 'multiple',
+      animation: { startup: true, duration: 2000, easing: 'in' },
+      explorer: {
+        keepInBounds: true,
+        maxZoomIn: 0.05,
+        maxZoomOut: 1.5,
+        actions: ['dragToZoom', 'rightClickToReset']
+      },
+      focusTarget: 'category'
+    }
   });
 
-  // create columns array
-  var columns = [0];
-  /* the series map is an array of data series
-   * "column" is the index of the data column to use for the series
-   * "roleColumns" is an array of column indices corresponding to columns with roles that are associated with this data series
-   * "display" is a boolean, set to true to make the series visible on the initial draw
-   */
-  var seriesMap = [];
-
-  for (var i = 1; i < setChartData[0].length; i++) {
-    var _display = false;
-    if (i < 2) {
-      _display = true;
-    }
-    seriesMap.push({
-      column: i,
-      display: _display
-    });
-  }
-  var columnsMap = {};
-  var series = [];
-  for (var i = 0; i < seriesMap.length; i++) {
-    var col = seriesMap[i].column;
-    columnsMap[col] = i;
-    // set the default series option
-    series[i] = {};
-    if (seriesMap[i].display) {
-      // if the column is the domain column or in the default list, display the series
-      columns.push(col);
-    }
-    else {
-      // otherwise, hide it
-      columns.push({
-        label: data.getColumnLabel(col),
-        type: data.getColumnType(col),
-        sourceColumn: col,
-        calc: function () {
-          return null;
-        }
-      });
-      // backup the default color (if set)
-      if (typeof(series[i].color) !== 'undefined') {
-        series[i].backupColor = series[i].color;
-      }
-      series[i].color = '#CCCCCC';
-    }
-  }
-
-  chart.setOption('series', series);
-
-  function showHideSeries () {
-    var sel = chart.getChart().getSelection();
-    // if selection length is 0, we deselected an element
-    if (sel.length > 0) {
-      // if row is undefined, we clicked on the legend
-      if (sel[0].row == null) {
-        var col = sel[0].column;
-        if (typeof(columns[col]) == 'number') {
-          var src = columns[col];
-
-          // hide the data series
-          columns[col] = {
-              label: data.getColumnLabel(src),
-              type: data.getColumnType(src),
-              sourceColumn: src,
-              calc: function () {
-                  return null;
-              }
-          };
-
-          // grey out the legend entry
-          series[columnsMap[src]].color = '#CCCCCC';
-        }
-        else {
-          var src = columns[col].sourceColumn;
-
-          // show the data series
-          columns[col] = src;
-          series[columnsMap[src]].color = null;
-        }
-        var view = chart.getView() || {};
-        view.columns = columns;
-        chart.setView(view);
-        chart.draw();
-      }
-    }
-  }
-
-  google.visualization.events.addListener(chart, 'select', showHideSeries);
-
-  // create a view with the default columns
-  var view = {
-    columns: columns
-  };
-  chart.setView(view);
-  dash.bind([control], [chart]);
+  dash.bind(control, chart);
   dash.draw(data);
+}
+
+function drawSimpleChart(csvdata) {
+  var data = new google.visualization.arrayToDataTable(csvdata);
+
+  var options = {
+    title: 'CSV Graph',
+    legend: { position: 'right' },
+    selectionMode: 'multiple',
+    animation: { startup: true, duration: 2000, easing: 'in' },
+    explorer: {
+      keepInBounds: true,
+      maxZoomIn: 0.05,
+      maxZoomOut: 1.5,
+      actions: ['dragToZoom', 'rightClickToReset']
+    },
+    focusTarget: 'category'
+  };
+
+  var chart = new google.charts.Line(document.getElementById('chart'));
+
+  chart.draw(data, options);
+}
+
+function simpleChart (setChartData) {
+  google.charts.load('current', {'packages':['line']});
+  google.charts.setOnLoadCallback( function() {
+    drawSimpleChart(setChartData);
+  });
+}
+
+function dashboardChart (setChartData) {
+  google.charts.load('current', {'packages':['controls', 'line']});
+  google.charts.setOnLoadCallback( function() {
+    drawDashboard(setChartData);
+  });
 }
