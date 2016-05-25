@@ -52,8 +52,7 @@ function drawDashboard(csvdata, chartType, controlType) {
       filterColumnIndex: 0,
       ui: {
         chartOptions: {
-          height: 75,
-          width: 600
+          height: 75
         },
         chartView: { columns: [0, 1] }
       }
@@ -160,7 +159,7 @@ function drawDashboard(csvdata, chartType, controlType) {
       }
     }
   }
-  
+
   google.visualization.events.addListener(chart, 'select', showHideSeries);
 
   var view = {columns: columns};
@@ -178,7 +177,7 @@ function classicChart (setChartData) {
 }
 
 function materialChart (setChartData) {
-  google.charts.load('current', {'packages':['controls', 'line']});
+  google.charts.load('upcoming', {'packages':['controls', 'line']});
   google.charts.setOnLoadCallback( function() {
     drawDashboard(setChartData, 'Line', 'NumberRangeFilter');
   });
