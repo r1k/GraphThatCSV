@@ -23,7 +23,7 @@ function handleFileSelect(evt) {
   $('#filename').text(file.name);
   // read the file contents and chart the data
   chartFileData(file, function(parsed) {
-    materialChart(parsed);
+    classicChart(parsed);
   });
 }
 
@@ -160,7 +160,7 @@ function drawDashboard(csvdata, chartType, controlType) {
       }
     }
   }
-  
+
   google.visualization.events.addListener(chart, 'select', showHideSeries);
 
   var view = {columns: columns};
