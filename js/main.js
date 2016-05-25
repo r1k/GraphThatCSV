@@ -88,6 +88,6 @@ function classicChart (setChartData) {
 function materialChart (setChartData) {
   google.charts.load('current', {'packages':['controls', 'line']});
   google.charts.setOnLoadCallback( function() {
-    drawDashboard(setChartData, 'Line', 'ChartRangeFilter');
+    drawDashboard(setChartData, 'Line', 'NumberRangeFilter');
   });
 }
