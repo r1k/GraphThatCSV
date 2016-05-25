@@ -4,28 +4,26 @@
     <head>
         <meta charset="utf-8" />
         <title>GraphThatCSV</title>
-        <!-- Code take from example on jquery-csv google code website -->
         <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
         <link href="http://code.jquery.com/ui/1.9.0/themes/cupertino/jquery-ui.css" rel="stylesheet" />
         <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <!--
-        <script src="http://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['line', 'controls']}]}"></script>
-        -->
         <script src="js/jquery.csv.js"></script>
         <script src="js/materialize.min.js"></script>
         <link href="css/materialize.min.css" rel="stylesheet" />
         <script src="js/main.js"></script>
         <link href="css/main.css" rel="stylesheet" />
-        </>
     </head>
     <body bgcolor="#e0e0e0">
+
       <nav class="grey darken-2">
         <div class="nav-wrapper">
           <a href="#" class="brand-logo center">GraphThatCSV</a>
         </div>
       </nav>
+
         <div class="main-body">
+
           <div class="card-panel">
             <hr />
               <label for="files" class="waves-effect waves-light btn red">Choose File</label>
@@ -33,12 +31,13 @@
               <input id="files" type="file" name="file" style="position: fixed; top: -100em">
             <hr />
           </div>
-            <div id=dashboard class="card-panel">
-              <div id=chart>chart</div>
-              <div id=padding>padding</div>
-            </div>
 
-            <div id=control class="card-panel">control</div>
+          <div id=dashboard class="card-panel">
+            <div id=chart>chart</div>
+            <div id=padding>padding</div>
+            <div id=control>control</div>
+          </div>
+
         </div>
     </body>
 </html>

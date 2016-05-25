@@ -23,7 +23,7 @@ function handleFileSelect(evt) {
   $('#filename').text(file.name);
   // read the file contents and chart the data
   chartFileData(file, function(parsed) {
-    dashboardChart(parsed);
+    materialChart(parsed);
   });
 }
 
@@ -42,17 +42,18 @@ function chartFileData(fileToParse, callback) {
   };
 }
 
-function drawDashboard(csvdata) {
+function drawDashboard(csvdata, chartType, controlType) {
   var data = new google.visualization.arrayToDataTable(csvdata);
   var dash = new google.visualization.Dashboard(document.getElementById('dashboard'));
   var control = new google.visualization.ControlWrapper({
-    controlType: 'ChartRangeFilter',
+    controlType: controlType,
     containerId: 'control',
     options: {
       filterColumnIndex: 0,
       ui: {
         chartOptions: {
-          height: 75
+          height: 75,
+          width: 600
         },
         chartView: { columns: [0, 1] }
       }
@@ -60,20 +61,16 @@ function drawDashboard(csvdata) {
   });
 
   var chart = new google.visualization.ChartWrapper({
-    chartType: 'Line',
+    chartType: chartType,
     containerId: 'chart',
     options: {
-      title: 'CSV Graph',
       legend: { position: 'right' },
-      selectionMode: 'multiple',
-      animation: { startup: true, duration: 2000, easing: 'in' },
       explorer: {
         keepInBounds: true,
         maxZoomIn: 0.05,
         maxZoomOut: 1.5,
         actions: ['dragToZoom', 'rightClickToReset']
-      },
-      focusTarget: 'category'
+      }
     }
   });
 
@@ -81,38 +78,16 @@ function drawDashboard(csvdata) {
   dash.draw(data);
 }
 
-function drawSimpleChart(csvdata) {
-  var data = new google.visualization.arrayToDataTable(csvdata);
-
-  var options = {
-    title: 'CSV Graph',
-    legend: { position: 'right' },
-    selectionMode: 'multiple',
-    animation: { startup: true, duration: 2000, easing: 'in' },
-    explorer: {
-      keepInBounds: true,
-      maxZoomIn: 0.05,
-      maxZoomOut: 1.5,
-      actions: ['dragToZoom', 'rightClickToReset']
-    },
-    focusTarget: 'category'
-  };
-
-  var chart = new google.charts.Line(document.getElementById('chart'));
-
-  chart.draw(data, options);
-}
-
-function simpleChart (setChartData) {
-  google.charts.load('current', {'packages':['line']});
+function classicChart (setChartData) {
+  google.charts.load('current', {'packages':['controls', 'corechart']});
   google.charts.setOnLoadCallback( function() {
-    drawSimpleChart(setChartData);
+    drawDashboard(setChartData, 'LineChart', 'ChartRangeFilter');
   });
 }
 
-function dashboardChart (setChartData) {
+function materialChart (setChartData) {
   google.charts.load('current', {'packages':['controls', 'line']});
   google.charts.setOnLoadCallback( function() {
-    drawDashboard(setChartData);
+    drawDashboard(setChartData, 'Line', 'ChartRangeFilter');
   });
 }
